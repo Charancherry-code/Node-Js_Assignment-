@@ -1,0 +1,85 @@
+{
+  "info": {
+    "_postman_id": "5d7b1ce0-6f8d-4d8e-9f36-5aa9bbf3f7a1",
+    "name": "School Management API",
+    "description": "Postman collection for adding schools and listing schools by proximity.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Add School",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Springfield High\",\n  \"address\": \"742 Evergreen Terrace, Springfield\",\n  \"latitude\": 12.9716,\n  \"longitude\": 77.5946\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/addSchool",
+          "host": ["{{baseUrl}}"],
+          "path": ["addSchool"]
+        },
+        "description": "Creates a new school record after validating the payload."
+      },
+      "response": [
+        {
+          "name": "201 Created",
+          "status": "Created",
+          "code": 201,
+          "body": "{\n  \"success\": true,\n  \"message\": \"School added successfully\",\n  \"data\": {\n    \"id\": 1,\n    \"name\": \"Springfield High\",\n    \"address\": \"742 Evergreen Terrace, Springfield\",\n    \"latitude\": 12.9716,\n    \"longitude\": 77.5946\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "List Schools",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/listSchools?latitude={{userLatitude}}&longitude={{userLongitude}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["listSchools"],
+          "query": [
+            {
+              "key": "latitude",
+              "value": "{{userLatitude}}"
+            },
+            {
+              "key": "longitude",
+              "value": "{{userLongitude}}"
+            }
+          ]
+        },
+        "description": "Returns schools sorted by distance from the user location."
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "status": "OK",
+          "code": 200,
+          "body": "{\n  \"success\": true,\n  \"message\": \"Schools retrieved successfully\",\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"Springfield High\",\n      \"address\": \"742 Evergreen Terrace, Springfield\",\n      \"latitude\": 12.9716,\n      \"longitude\": 77.5946,\n      \"distanceKm\": 3.212\n    }\n  ]\n}"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "userLatitude",
+      "value": "12.9352"
+    },
+    {
+      "key": "userLongitude",
+      "value": "77.6245"
+    }
+  ]
+}
